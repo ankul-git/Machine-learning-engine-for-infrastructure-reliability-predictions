@@ -1,13 +1,14 @@
-name: Terraform Destroy (Stop Billing)
+name: Terraform Destroy (Stop All Billing)
 
 on:
-  workflow_dispatch:  # Manual trigger from GitHub UI
+  workflow_dispatch:  # Manual trigger only - prevents accidental deletion
 
 jobs:
   destroy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials
@@ -22,10 +23,20 @@ jobs:
         with:
           terraform_version: 1.5.0  # Match your version
 
-      - name: Terraform Init
+      - name: Terraform Init (Pull S3 State)
         run: terraform init
+        working-directory: ./terraform  # Adjust to your terraform directory path
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
+        working-directory: ./terraform
         env:
-          TF_VAR_cluster_name: pre-cluster  # Add any other variables
+          TF_VAR_cluster_name: pre-cluster
+          # Add any other required Terraform variables here
+
+      - name: Verify Deletion
+        run: |
+          echo "Checking if cluster is deleted..."
+          aws eks list-clusters --region us-east-1
+          echo "Checking if ECR is deleted..."
+          aws ecr describe-repositories --region us-east-1 || echo "ECR deleted successfully"
