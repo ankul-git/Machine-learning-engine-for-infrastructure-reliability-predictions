@@ -41,7 +41,7 @@
 
 ## 📊 Live Dashboard
 
-<img width="1352" height="878" alt="Screenshot 2025-12-28 at 2 46 09 PM" src="https://github.com/user-attachments/assets/f2e38bc8-a428-418c-ae5c-1c4d693b6c00" />
+<img width="1352" height="878" alt="Screenshot 2025-12-28 at 2 47 01 PM" src="https://github.com/user-attachments/assets/d9323356-8038-4edc-8026-b2417feb7b71" />
 
 
 
